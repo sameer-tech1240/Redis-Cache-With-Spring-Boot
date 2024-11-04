@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+    <Properties>
+        <Property name="LOG_DIR">D:/SpringBoot/SpringBootWithRedisCache/LearnRedisCacheWithSpringBoot LOGS</Property>
+        <Property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss,SSS} : %X{track-id} : %-6p : %F:%L : %m%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PATTERN}" />
+        </Console>
+
+        <RollingFile name="LogToFile"
+                     fileName="${LOG_DIR}/redis.log"
+                     filePattern="${LOG_DIR}/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz"
+                     ignoreExceptions="false">
+            <PatternLayout>
+                <Pattern>${PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5" />
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.learn.redis.cache" level="debug" additivity="false" includeLocation="true">
+            <AppenderRef ref="LogToFile" />
+            <AppenderRef ref="LogToConsole" />
+        </Logger>
+        <Logger name="org.springframework" level="info" additivity="false" includeLocation="true">
+            <AppenderRef ref="LogToConsole" />
+        </Logger>
+        <Root level="info" includeLocation="true">
+            <AppenderRef ref="LogToFile" />
+            <AppenderRef ref="LogToConsole" />
+        </Root>
+    </Loggers>
+</Configuration>
